@@ -57,8 +57,10 @@ public class CustomAdapter extends SelectableAdapter<String, CustomAdapter.Custo
         public CustomViewHolder(View itemView) {
             super(itemView);
         }
+        
     }
-    }
+    
+}
 ```
 
 First, notice that when extending from SelectableAdapter, you should provide a type for the elements your adapter will be storing, in this case ```String```s.
