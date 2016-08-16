@@ -74,3 +74,17 @@ First, notice that when extending from SelectableAdapter, you should provide a t
 * The `startActionMode` method should create and return an ActionMode using an instance of the callback defined earlier. For the purpose of creating the ActionMode, you should employ any feasible strategy. For example, if you are extending the SelectableAdapter inside of an Activity class, this is easy: just call `startSupportActionMode()`. However, if you are doing it inside of a Fragment class, it gets a little trickier, you have to first access the parent Activity to call the method.
 * The `updateActionMode` method should update the ActionMode title when the number of items selected changes.
 * Finally, a ViewHolder type needs to be provided to the SelectableAdapter. Within this ViewHolder's constructor, you should define any OnClickListener, OnLongClickListener or any input listener that triggers the selection mode, toggles, selects or deselects an item. For these four events, you should call `triggerSelectionMode()`, `toggleItem()`, `selectItem()` and `deselectItem()`, respectively.
+
+## SuperSelectableAdapter
+
+**SuperSelectableAdapter** adds drag&drop and swiping capabilities to **SelectableAdapter**.
+
+![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/super_selectable_adapter.gif?raw=true "Logo Title Text 1")
+
+### Extending SuperSelectableAdapter
+
+There are few more requisites to extend SuperSelectableAdapter than extending its parent class:
+
+* Implement the `onMove` method: this method is called whenever a ViewHolder that you are currently dragging forces another ViewHolder to swap its position. You should perform any backend data movement here, or at least move the items from the `items` ArrayList of SuperSelectableAdapter.
+* Call the `dragStart()` method whenver you want to start a drag. Generally, you would do this on your ViewHolder itemView's OnLongClickListener, but you could also add a *handle* View to your ViewHolder and start the drag when that *handle* is touched. The possibilities are endless!
+* 
