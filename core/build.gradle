@@ -1,13 +1,7 @@
 apply plugin: 'com.android.library'
-
-ext {
-    PUBLISH_GROUP_ID = 'com.mikiloz.fancyadapters'
-    PUBLISH_ARTIFACT_ID = 'core'
-    PUBLISH_VERSION = '0.1.0'
-    SUPPORT_LIBRARY_VERSION = '24.0.0'
-    BUILD_TOOLS = "24.0.0"
-    TARGET_SDK = 24
-}
+//apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.MikiLoz92'
 
 android {
     compileSdkVersion 24
