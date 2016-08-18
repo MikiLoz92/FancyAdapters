@@ -1,11 +1,33 @@
 # FancyAdapters
 A collection of customizable RecyclerView Adapters for Android, that provide various functionality like item selection, contextual action mode controls, drag&amp;drop and swiping, among other.
 
+# Installation
+In your project's `build.gradle` add jitpack's repository:
+```gradle
+allprojects {
+	repositories {
+		...
+		maven { url "https://jitpack.io" }
+	}
+}
+```
+And in your module's `build.gradle` add the following dependency:
+```gradle
+dependencies {
+    ...
+	compile 'com.github.mikiloz92:fancyadapters:0.1.0'
+}
+```
+
+# Usage
+
+Even though understanding and using the following adapters isn't really a straightforward process, I can guarantee you that the results are going to be worth it! So, without further due, let's take a look at the basics of the adapters:
+
 ## SelectableAdapter
 
 **SelectableAdapter** is the simplest of them all. It just provides item selection functionality, combined with contextual action mode controls.
 
-![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/selectable_adapter.gif?raw=true "Logo Title Text 1")
+![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/selectable_adapter.gif?raw=true "SelectableAdapter")
 
 ### Extending SelectableAdapter
 
@@ -81,7 +103,7 @@ First, notice that when extending from SelectableAdapter, you should provide a t
 
 **SuperSelectableAdapter** adds drag&drop and swiping capabilities to **SelectableAdapter**.
 
-![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/super_selectable_adapter.gif?raw=true "Logo Title Text 1")
+![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/super_selectable_adapter.gif?raw=true "SuperSelectableAdapter")
 
 ### Extending SuperSelectableAdapter
 
