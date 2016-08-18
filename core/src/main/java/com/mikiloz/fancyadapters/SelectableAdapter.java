@@ -36,13 +36,10 @@ public abstract class SelectableAdapter<T, VH extends RecyclerView.ViewHolder>
      * The constructor takes the following parameters:
      *
      * @param items        the items that are going to be represented in a {@link RecyclerView}
-     * @param recyclerView a link to the {@link RecyclerView} that is going to be used
      */
-    public SelectableAdapter(List<T> items,
-                             RecyclerView recyclerView) {
+    public SelectableAdapter(List<T> items) {
         this.items = items;
         for (int i = 0; i < items.size(); i++) selected.add(false);
-        this.recyclerView = recyclerView;
         registerAdapterDataObserver(new DataChangeObserver());
     }
 

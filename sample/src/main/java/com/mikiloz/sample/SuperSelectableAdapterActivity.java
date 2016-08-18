@@ -36,7 +36,7 @@ public class SuperSelectableAdapterActivity extends AppCompatActivity {
         }
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        adapter = new CustomAdapter(items, recyclerView);
+        adapter = new CustomAdapter(items);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
 
@@ -44,8 +44,8 @@ public class SuperSelectableAdapterActivity extends AppCompatActivity {
 
     public class CustomAdapter extends SuperSelectableAdapter<String, CustomAdapter.CustomViewHolder> {
 
-        public CustomAdapter(List<String> items, RecyclerView recyclerView) {
-            super(items, recyclerView, ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.START | ItemTouchHelper.END);
+        public CustomAdapter(List<String> items) {
+            super(items, ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.START | ItemTouchHelper.END);
         }
 
         @Override
@@ -57,6 +57,8 @@ public class SuperSelectableAdapterActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(CustomViewHolder holder, int position) {
+            if (isActionModeEnabled()) holder.selectedOverlay.setVisibility(View.VISIBLE);
+            else holder.selectedOverlay.setVisibility(View.GONE);
             holder.textView.setText(items.get(position));
             if (isActionModeEnabled()) {
                 if (isSelected(position))

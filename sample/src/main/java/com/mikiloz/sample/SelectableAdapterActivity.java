@@ -35,7 +35,7 @@ public class SelectableAdapterActivity extends AppCompatActivity {
         }
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        adapter = new CustomAdapter(items, recyclerView);
+        adapter = new CustomAdapter(items);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
 
@@ -43,8 +43,8 @@ public class SelectableAdapterActivity extends AppCompatActivity {
 
     public class CustomAdapter extends SelectableAdapter<String, CustomAdapter.CustomViewHolder> {
 
-        public CustomAdapter(List<String> items, RecyclerView recyclerView) {
-            super(items, recyclerView);
+        public CustomAdapter(List<String> items) {
+            super(items);
         }
 
         @Override
@@ -56,6 +56,8 @@ public class SelectableAdapterActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(CustomViewHolder holder, int position) {
+            if (isActionModeEnabled()) holder.selectedOverlay.setVisibility(View.VISIBLE);
+            else holder.selectedOverlay.setVisibility(View.GONE);
             holder.textView.setText(items.get(position));
             if (isActionModeEnabled()) {
                 if (isSelected(position))
