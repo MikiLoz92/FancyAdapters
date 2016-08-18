@@ -29,7 +29,6 @@ public abstract class SelectableAdapter<T, VH extends RecyclerView.ViewHolder>
     protected List<T> items;
     protected List<Boolean> selected = new ArrayList<>();
     protected List<VH> viewHolders = new ArrayList<>();
-    protected RecyclerView recyclerView;
     protected ActionMode actionMode;
 
     /**

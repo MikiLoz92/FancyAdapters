@@ -23,8 +23,9 @@ public abstract class SuperSelectableAdapter<T, VH extends RecyclerView.ViewHold
      * The constructor takes the following parameters:
      *
      * @param items        the items that are going to be represented in a {@link RecyclerView}
+     * @param recyclerView a link to the {@link RecyclerView} that is going to be used
      */
-    public SuperSelectableAdapter(List<T> items, int dragFlags, int swipeFlags) {
+    public SuperSelectableAdapter(List<T> items, RecyclerView recyclerView, int dragFlags, int swipeFlags) {
         super(items);
         this.dragFlags = dragFlags;
         this.swipeFlags = swipeFlags;
@@ -94,8 +95,16 @@ public abstract class SuperSelectableAdapter<T, VH extends RecyclerView.ViewHold
                 if (dragging) {
                     dragging = false;
                     if (!elementMoved && triggerOnDrop) {
-                        VH vh = (VH) recyclerView.findViewHolderForAdapterPosition(draggedElementPos);
-                        triggerSelectionMode(vh, draggedElementPos);
+                        //VH vh = (VH) recyclerView.findViewHolderForAdapterPosition(draggedElementPos);
+                        //triggerSelectionMode(vh, draggedElementPos);
+                        VH vh;
+                        for (VH v: viewHolders) {
+                            if (v.getAdapterPosition() == draggedElementPos) {
+                                vh = v;
+                                triggerSelectionMode(vh, draggedElementPos);
+                                break;
+                            }
+                        }
                     }
                 } else if (swiping) {
                     swiping = false;
