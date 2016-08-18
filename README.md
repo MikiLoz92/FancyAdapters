@@ -27,7 +27,7 @@ Even though understanding and using the following adapters isn't really a straig
 
 **SelectableAdapter** is the simplest of them all. It just provides item selection functionality, combined with contextual action mode controls.
 
-![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/selectable_adapter.gif?raw=true "SelectableAdapter")
+![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/art/selectable_adapter.gif?raw=true "SelectableAdapter")
 
 ### Extending SelectableAdapter
 
@@ -103,7 +103,7 @@ First, notice that when extending from SelectableAdapter, you should provide a t
 
 **SuperSelectableAdapter** adds drag&drop and swiping capabilities to **SelectableAdapter**.
 
-![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/super_selectable_adapter.gif?raw=true "SuperSelectableAdapter")
+![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/art/super_selectable_adapter.gif?raw=true "SuperSelectableAdapter")
 
 ### Extending SuperSelectableAdapter
 
@@ -113,3 +113,9 @@ There are few more requisites to extend SuperSelectableAdapter than extending it
 * Implement the `onSwipe` method: this method is called whenever a ViewHolder is swiped. Any possible backend data removal or modification should be done here.
 * As with SelectableAdapter, you can customize the ViewHolder behavior on input events by using the `triggerSelectionMode()`, `toggleItem()`, `selectItem()` and `deselectItem()` methods. Just one more thing left: you can call the `dragStart()` method whenver you want to start a drag. Generally, you would do this on your ViewHolder itemView's OnLongClickListener, but you could also add a *handle* View to your ViewHolder and start the drag when that *handle* is touched. The possibilities are endless!
 * By default, an item will be selected when you start a drag on its ViewHolder and drop it on the same spot without moving it from there, as you can see on the gif image above. However, you can disable this behavior by using the `setTriggerSelectionModeByDroppingViewHolder(boolean triggerOnDrop)` method.
+
+## HandleAdapter
+
+**HandleAdapter** is a special type of adapter. It sacrifices a little bit of customizability in order to bring to the user an easier to implement adapter. The adapter bases its behavior in the idea that ViewHolders can only be moved by dragging a certain View, called the *handle* View. It the gif below, it is represented by the image on the left of each row.
+
+![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/art/handle_adapter.gif?raw=true "SuperSelectableAdapter")
