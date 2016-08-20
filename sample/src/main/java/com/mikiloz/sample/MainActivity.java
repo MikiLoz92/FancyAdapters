@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mikiloz.fancyadapters.SelectableViewAdapter;
 import com.mikiloz.fancyadapters.SuperSelectableAdapter;
 
 import java.util.ArrayList;
@@ -24,7 +25,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button selectableAdapterButton, superSelectableAdapterButton, handleAdapterButton;
+    Button selectableAdapterButton, superSelectableAdapterButton, selectableViewAdapterButton,
+            handleAdapterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         selectableAdapterButton = (Button) findViewById(R.id.selectable_adapter_button);
         superSelectableAdapterButton = (Button) findViewById(R.id.super_selectable_adapter_button);
+        selectableViewAdapterButton = (Button) findViewById(R.id.selectable_view_adapter_button);
         handleAdapterButton = (Button) findViewById(R.id.handle_adapter_button);
 
         selectableAdapterButton.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SuperSelectableAdapterActivity.class);
+                MainActivity.this.startActivity(intent);
+            }
+        });
+
+        selectableViewAdapterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SelectableViewAdapterActivity.class);
                 MainActivity.this.startActivity(intent);
             }
         });

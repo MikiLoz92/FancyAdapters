@@ -24,6 +24,8 @@ public abstract class SuperSelectableAdapter<T, VH extends RecyclerView.ViewHold
      *
      * @param items        the items that are going to be represented in a {@link RecyclerView}
      * @param recyclerView a link to the {@link RecyclerView} that is going to be used
+     * @param dragFlags the directions in which the item can be dragged
+     * @param swipeFlags the directions in which the item can be swiped
      */
     public SuperSelectableAdapter(List<T> items, RecyclerView recyclerView, int dragFlags, int swipeFlags) {
         super(items);

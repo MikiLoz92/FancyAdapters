@@ -26,6 +26,12 @@
             android:text="Super Selectable Adapter" />
 
         <Button
+            android:id="@+id/selectable_view_adapter_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Selectable View Adapter" />
+
+        <Button
             android:id="@+id/handle_adapter_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

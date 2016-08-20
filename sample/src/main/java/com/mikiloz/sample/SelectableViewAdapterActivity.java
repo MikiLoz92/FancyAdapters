@@ -14,12 +14,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mikiloz.fancyadapters.HandleAdapter;
+import com.mikiloz.fancyadapters.SelectableViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HandleAdapterActivity extends AppCompatActivity {
+public class SelectableViewAdapterActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     CustomAdapter adapter;
@@ -41,7 +41,7 @@ public class HandleAdapterActivity extends AppCompatActivity {
 
     }
 
-    public class CustomAdapter extends HandleAdapter<String, CustomAdapter.CustomViewHolder> {
+    public class CustomAdapter extends SelectableViewAdapter<String, CustomAdapter.CustomViewHolder> {
 
         public CustomAdapter(List<String> items, RecyclerView recyclerView) {
             super(items, recyclerView, ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.START | ItemTouchHelper.END);
@@ -50,12 +50,13 @@ public class HandleAdapterActivity extends AppCompatActivity {
         @Override
         public CustomViewHolder onCreateSelectableViewHolder(ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.row_view_handle, parent, false);
+                    .inflate(R.layout.row_view_selectable_view, parent, false);
             return new CustomViewHolder(itemView);
         }
 
         @Override
         public void onBindSelectableViewHolder(CustomViewHolder holder, int position) {
+            holder.position.setText(String.valueOf(position));
             holder.textView.setText(items.get(position));
         }
 
@@ -112,13 +113,15 @@ public class HandleAdapterActivity extends AppCompatActivity {
             items.remove(viewHolder.getAdapterPosition());
         }
 
-        public class CustomViewHolder extends HandleAdapter.ViewHolder {
+        public class CustomViewHolder extends SelectableViewAdapter.ViewHolder {
 
             TextView textView;
+            TextView position;
 
             public CustomViewHolder(View itemView) {
                 super(itemView);
                 textView = (TextView) itemView.findViewById(R.id.textview);
+                position = (TextView) itemView.findViewById(R.id.position);
 
                 itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
@@ -140,13 +143,13 @@ public class HandleAdapterActivity extends AppCompatActivity {
             }
 
             @Override
-            public int getHandleViewID() {
-                return R.id.handle;
+            public int getSelectableViewID() {
+                return R.id.position;
             }
 
             @Override
             public int getSelectedIndicatorResourceID() {
-                return R.layout.selected_indicator;
+                return R.layout.selected_indicator_lesspadding;
             }
         }
 

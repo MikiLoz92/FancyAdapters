@@ -1,48 +1,41 @@
-package com.mikiloz.sample;// Created by Miguel Vera Belmonte on 18/08/2016.
+package com.mikiloz.fancyadapters;// Created by Miguel Vera Belmonte on 18/08/2016.
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.mikiloz.fancyadapters.SuperSelectableAdapter;
 
 import java.util.List;
 
 
-public abstract class HandleAdapter<T, VH extends HandleAdapter.ViewHolder>
+public abstract class SelectableViewAdapter<T, VH extends SelectableViewAdapter.ViewHolder>
         extends SuperSelectableAdapter<T, VH> {
-
-    private boolean actionCancelled = false;    // Whether the element was just dropped
 
     /**
      * The constructor takes the following parameters:
      *
-     * @param items        the items that are going to be represented in a {@link RecyclerView}
+     * @param items the items that are going to be represented in a {@link RecyclerView}
      * @param recyclerView a link to the {@link RecyclerView} that is going to be used
-     * @param dragFlags
-     * @param swipeFlags
+     * @param dragFlags the directions in which the item can be dragged
+     * @param swipeFlags the directions in which the item can be swiped
      */
-    public HandleAdapter(List<T> items, RecyclerView recyclerView, int dragFlags, int swipeFlags) {
+    public SelectableViewAdapter(List<T> items, RecyclerView recyclerView, int dragFlags, int swipeFlags) {
         super(items, recyclerView, dragFlags, swipeFlags);
         triggerOnDrop = false;
     }
 
-    public abstract void onBindHandleViewHolder(VH holder, int position);
+    public abstract void onBindSelectableViewHolder(VH holder, int position);
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
 
         if (isSelected(position)) {
-            int index = holder.parent.indexOfChild(holder.handleView);
+            int index = holder.parent.indexOfChild(holder.selectableView);
             if (index != -1) {
-                holder.parent.removeView(holder.handleView);
+                holder.parent.removeView(holder.selectableView);
                 holder.selectedIndicatorView.setRotationY(180);
                 holder.parent.addView(holder.selectedIndicatorView, index);
             }
@@ -50,12 +43,12 @@ public abstract class HandleAdapter<T, VH extends HandleAdapter.ViewHolder>
             int index = holder.parent.indexOfChild(holder.selectedIndicatorView);
             if (index != -1) {
                 holder.parent.removeView(holder.selectedIndicatorView);
-                holder.handleView.setRotationY(0);
-                holder.parent.addView(holder.handleView, index);
+                holder.selectableView.setRotationY(0);
+                holder.parent.addView(holder.selectableView, index);
             }
         }
 
-        onBindHandleViewHolder(holder, position);
+        onBindSelectableViewHolder(holder, position);
 
     }
 
@@ -67,7 +60,7 @@ public abstract class HandleAdapter<T, VH extends HandleAdapter.ViewHolder>
                 .loadAnimator(holder.itemView.getContext(), R.animator.flip_handle_1);
         animator2 = (ObjectAnimator) AnimatorInflater
                 .loadAnimator(holder.itemView.getContext(), R.animator.flip_handle_2);
-        animator1.setTarget(holder.handleView);
+        animator1.setTarget(holder.selectableView);
         animator2.setTarget(holder.selectedIndicatorView);
         animator1.setDuration(75);
         animator2.setDuration(75);
@@ -80,9 +73,9 @@ public abstract class HandleAdapter<T, VH extends HandleAdapter.ViewHolder>
             @Override
             public void onAnimationEnd(Animator animator) {
                 animator2.start();
-                holder.handleView.setRotationY(0);
-                int index = holder.parent.indexOfChild(holder.handleView);
-                holder.parent.removeView(holder.handleView);
+                holder.selectableView.setRotationY(0);
+                int index = holder.parent.indexOfChild(holder.selectableView);
+                holder.parent.removeView(holder.selectableView);
                 holder.parent.removeView(holder.selectedIndicatorView);
                 holder.parent.addView(holder.selectedIndicatorView, index);
             }
@@ -106,7 +99,7 @@ public abstract class HandleAdapter<T, VH extends HandleAdapter.ViewHolder>
         animator2 = (ObjectAnimator) AnimatorInflater
                 .loadAnimator(holder.itemView.getContext(), R.animator.flip_handle_4);
         animator1.setTarget(holder.selectedIndicatorView);
-        animator2.setTarget(holder.handleView);
+        animator2.setTarget(holder.selectableView);
         animator1.setDuration(75);
         animator2.setDuration(75);
         animator1.start();
@@ -121,8 +114,8 @@ public abstract class HandleAdapter<T, VH extends HandleAdapter.ViewHolder>
                 holder.selectedIndicatorView.setRotationY(0);
                 int index = holder.parent.indexOfChild(holder.selectedIndicatorView);
                 holder.parent.removeView(holder.selectedIndicatorView);
-                holder.parent.removeView(holder.handleView);
-                holder.parent.addView(holder.handleView, index);
+                holder.parent.removeView(holder.selectableView);
+                holder.parent.addView(holder.selectableView, index);
             }
             @Override
             public void onAnimationCancel(Animator animator) {
@@ -137,13 +130,13 @@ public abstract class HandleAdapter<T, VH extends HandleAdapter.ViewHolder>
 
     public abstract class ViewHolder extends RecyclerView.ViewHolder {
 
-        protected View handleView, selectedIndicatorView;
+        protected View selectableView, selectedIndicatorView;
         protected ViewGroup parent;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            handleView = itemView.findViewById(getHandleViewID());
-            parent = (ViewGroup) handleView.getParent();
+            selectableView = itemView.findViewById(getSelectableViewID());
+            parent = (ViewGroup) selectableView.getParent();
             selectedIndicatorView = LayoutInflater.from(itemView.getContext())
                     .inflate(getSelectedIndicatorResourceID(), parent, false);
             selectedIndicatorView.setScaleX(-1);
@@ -183,24 +176,13 @@ public abstract class HandleAdapter<T, VH extends HandleAdapter.ViewHolder>
                     } else return HandleViewHolder.this.onLongClick();
                 }
             });*/
-            handleView.setOnTouchListener(new View.OnTouchListener() {
+            selectableView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_MOVE) {
-                        if (!isActionModeEnabled()) {
-                            startDrag((VH)ViewHolder.this, getLayoutPosition());
-                        }
-                    } else if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_UP) {
-                        actionCancelled = false;
-                        if (isActionModeEnabled()) {
-                            toggleItem((VH)ViewHolder.this, getLayoutPosition());
-                        } else {
-                            triggerSelectionMode((VH)ViewHolder.this, getLayoutPosition());
-                        }
-                    } else if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_CANCEL) {
-                        actionCancelled = true;
-                    }
-                    return true;
+                public void onClick(View view) {
+                    if (!isActionModeEnabled())
+                        triggerSelectionMode((VH)ViewHolder.this, getLayoutPosition());
+                    else
+                        toggleItem((VH)ViewHolder.this, getLayoutPosition());
                 }
             });
             selectedIndicatorView.setOnClickListener(new View.OnClickListener() {
@@ -214,10 +196,10 @@ public abstract class HandleAdapter<T, VH extends HandleAdapter.ViewHolder>
 
         /**
          * This method is meant to return the ID of the handle {@link View}. This View should be
-         * contained within the element you're inflating as your {@link HandleAdapter.ViewHolder}.
+         * contained within the element you're inflating as your {@link SelectableViewAdapter.ViewHolder}.
          * @return the ID of the handle {@link View}
          */
-        public abstract int getHandleViewID();
+        public abstract int getSelectableViewID();
 
         /**
          * This method should return the resource ID of the {@link View} you'll be swapping your
