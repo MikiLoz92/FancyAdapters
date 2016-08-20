@@ -114,6 +114,16 @@ There are few more requisites to extend SuperSelectableAdapter than extending it
 * As with SelectableAdapter, you can customize the ViewHolder behavior on input events by using the `triggerSelectionMode()`, `toggleItem()`, `selectItem()` and `deselectItem()` methods. Just one more thing left: you can call the `dragStart()` method whenver you want to start a drag. Generally, you would do this on your ViewHolder itemView's OnLongClickListener, but you could also add a *handle* View to your ViewHolder and start the drag when that *handle* is touched. The possibilities are endless!
 * By default, an item will be selected when you start a drag on its ViewHolder and drop it on the same spot without moving it from there, as you can see on the gif image above. However, you can disable this behavior by using the `setTriggerSelectionModeByDroppingViewHolder(boolean triggerOnDrop)` method.
 
+## SelectableViewAdapter
+
+**SelectableViewAdapter** is a SuperSelectableAdapter that provides visual feedback of the selection status of an item. What makes it different from the adapter that it extends from is that there are two methods in the ViewHolder (it must extend from SelectableViewAdapter.ViewHolder), `getSelectableViewID` and `getSelectedIndicatorResourceID` that provide, respectively:
+
+1. The ID (R.id.\*) of the View that will act as a selectable View (in the gif below, it is the ID of the TextView that marks the row position (on the left of each item). This is considered the **selectableView**.
+2. The layout ID (R.layout.\*) from which to inflate a View that will replace the View just described (in the gif below, it is a View that has tick mark). This is considered the **selectedIndicatorView**.
+
+![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/art/selectable_view_adapter.gif?raw=true "SuperSelectableAdapter")
+
+
 ## HandleAdapter
 
 **HandleAdapter** is a special type of adapter. It sacrifices a little bit of customizability in order to bring to the user an easier to implement adapter. The adapter bases its behavior in the idea that ViewHolders can only be moved by dragging a certain View, called the *handle* View. It the gif below, it is represented by the image on the left of each row.
