@@ -26,6 +26,7 @@ public abstract class HandleAdapter<T, VH extends HandleAdapter.ViewHolder>
     public HandleAdapter(List<T> items, RecyclerView recyclerView, int dragFlags, int swipeFlags) {
         super(items, recyclerView, dragFlags, swipeFlags);
         triggerOnDrop = false;
+        selectableViewBehavior = SelectableViewBehavior.IGNORE_CLICK_EVENTS;
     }
 
     public abstract class ViewHolder extends SelectableViewAdapter.ViewHolder {
@@ -42,10 +43,12 @@ public abstract class HandleAdapter<T, VH extends HandleAdapter.ViewHolder>
                         }
                     } else if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_UP) {
                         actionCancelled = false;
-                        if (isActionModeEnabled()) {
-                            toggleItem((VH)ViewHolder.this, getLayoutPosition());
-                        } else {
-                            triggerSelectionMode((VH)ViewHolder.this, getLayoutPosition());
+                        if (selectableViewBehavior == SelectableViewBehavior.RESPOND_TO_CLICK_EVENTS) {
+                            if (isActionModeEnabled()) {
+                                toggleItem((VH) ViewHolder.this, getLayoutPosition());
+                            } else {
+                                triggerSelectionMode((VH) ViewHolder.this, getLayoutPosition());
+                            }
                         }
                     } else if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_CANCEL) {
                         actionCancelled = true;
@@ -53,12 +56,16 @@ public abstract class HandleAdapter<T, VH extends HandleAdapter.ViewHolder>
                     return true;
                 }
             });
+
             selectedIndicatorView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    toggleItem((VH)ViewHolder.this, getLayoutPosition());
+                    if (selectableViewBehavior == SelectableViewBehavior.RESPOND_TO_CLICK_EVENTS) {
+                        toggleItem((VH) ViewHolder.this, getLayoutPosition());
+                    }
                 }
             });
+
             itemView.setHapticFeedbackEnabled(true);
         }
 

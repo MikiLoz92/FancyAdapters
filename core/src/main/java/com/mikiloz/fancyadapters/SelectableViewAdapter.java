@@ -14,6 +14,9 @@ import java.util.List;
 public abstract class SelectableViewAdapter<T, VH extends SelectableViewAdapter.ViewHolder>
         extends SuperSelectableAdapter<T, VH> {
 
+    protected SelectableViewBehavior selectableViewBehavior =
+            SelectableViewBehavior.RESPOND_TO_CLICK_EVENTS;
+
     /**
      * The constructor takes the following parameters:
      *
@@ -128,6 +131,15 @@ public abstract class SelectableViewAdapter<T, VH extends SelectableViewAdapter.
         });
     }
 
+    public enum SelectableViewBehavior {
+        RESPOND_TO_CLICK_EVENTS,
+        IGNORE_CLICK_EVENTS
+    }
+
+    public void setSelectableViewBehavior(SelectableViewBehavior behavior) {
+        selectableViewBehavior = behavior;
+    }
+
     public abstract class ViewHolder extends RecyclerView.ViewHolder {
 
         protected View selectableView, selectedIndicatorView;
@@ -141,56 +153,27 @@ public abstract class SelectableViewAdapter<T, VH extends SelectableViewAdapter.
                     .inflate(getSelectedIndicatorResourceID(), parent, false);
             selectedIndicatorView.setScaleX(-1);
 
-            /*itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (isActionModeEnabled())
-                        if (selectClick) {
-                            toggleElement(HandleViewHolder.this);
-                        } else HandleViewHolder.this.onClick();
-                    else {
-                        if (actionModeStartClick) {
-                            selectFirstElement(HandleViewHolder.this);
-                        } else if (dragStartClick) {
-                            startDrag(HandleViewHolder.this);
-                        } else HandleViewHolder.this.onClick();
-                    }
-                }
-            });
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if (isActionModeEnabled())
-                        if (selectLongClick) {
-                            toggleElement(HandleViewHolder.this);
-                            return true;
-                        }
-                        else return HandleViewHolder.this.onLongClick();
-                    else
-                    if (dragStartLongClick) {
-                        startDrag(HandleViewHolder.this);
-                        return true;
-                    } else if (actionModeStartLongClick) {
-                        selectFirstElement(HandleViewHolder.this);
-                        return true;
-                    } else return HandleViewHolder.this.onLongClick();
-                }
-            });*/
             selectableView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (!isActionModeEnabled())
-                        triggerSelectionMode((VH)ViewHolder.this, getLayoutPosition());
-                    else
-                        toggleItem((VH)ViewHolder.this, getLayoutPosition());
+                    if (selectableViewBehavior == SelectableViewBehavior.RESPOND_TO_CLICK_EVENTS) {
+                        if (!isActionModeEnabled())
+                            triggerSelectionMode((VH) ViewHolder.this, getLayoutPosition());
+                        else
+                            toggleItem((VH) ViewHolder.this, getLayoutPosition());
+                    }
                 }
             });
+
             selectedIndicatorView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    toggleItem((VH)ViewHolder.this, getLayoutPosition());
+                    if (selectableViewBehavior == SelectableViewBehavior.RESPOND_TO_CLICK_EVENTS) {
+                        toggleItem((VH) ViewHolder.this, getLayoutPosition());
+                    }
                 }
             });
+
             itemView.setHapticFeedbackEnabled(true);
         }
 

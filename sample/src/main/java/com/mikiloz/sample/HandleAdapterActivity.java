@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mikiloz.fancyadapters.HandleAdapter;
+import com.mikiloz.fancyadapters.SelectableViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ public class HandleAdapterActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         adapter = new CustomAdapter(items, recyclerView);
+        adapter.setSelectableViewBehavior(SelectableViewAdapter.SelectableViewBehavior.RESPOND_TO_CLICK_EVENTS);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
 
