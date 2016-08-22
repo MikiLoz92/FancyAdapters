@@ -14,8 +14,8 @@ allprojects {
 And in your module's `build.gradle` add the following dependency:
 ```gradle
 dependencies {
-    ...
-	compile 'com.github.mikiloz92:fancyadapters:0.2.0'
+	...
+	compile 'com.github.mikiloz92:fancyadapters:0.3.0'
 }
 ```
 
