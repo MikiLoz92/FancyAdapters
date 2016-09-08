@@ -116,7 +116,7 @@ There are few more requisites to extend SuperSelectableAdapter than extending it
 
 ## SelectableViewAdapter
 
-**SelectableViewAdapter** is a SuperSelectableAdapter that provides visual feedback of the selection status of an item. The adapter will perform a nice flip animation to replace the **selectableView** with the **selectedIndicatorView** (explained below) and viceversa. Any other visual feedback of the selection state that you want to provide you must do it on your own in the `onItemSelected`, `onItemDeselected` and `onBindViewHolder` methods, but keep in mind that if wou want to preserve the flip animations that come by default, you must invoke the parents' method with **`super`**  when overriding the `onItemSelected` & `onItemDeselected` methods.
+**SelectableViewAdapter** is a SuperSelectableAdapter that provides visual feedback of the selection status of an item. The adapter will perform a nice flip animation to replace the **selectableView** with the **selectedIndicatorView** (explained below) and viceversa. Any other visual feedback of the selection state that you want to provide you must do it on your own in the `onItemSelected`, `onItemDeselected` and `onBindViewHolder` methods, but keep in mind that if wou want to preserve the flip animations that come by default, you must invoke the parents' method with **`super`**  when overriding these methods.
 
 ![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/art/selectable_view_adapter.gif?raw=true "SuperSelectableAdapter")
 
