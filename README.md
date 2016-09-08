@@ -116,7 +116,7 @@ There are few more requisites to extend SuperSelectableAdapter than extending it
 
 ## SelectableViewAdapter
 
-**SelectableViewAdapter** is a SuperSelectableAdapter that provides visual feedback of the selection status of an item. The adapter will perform a nice flip animation to replace the **selectableView** with the **selectedIndicatorView** (explained below) and viceversa. Any other visual feedback of the selection state that you want to provide you must do it on your own in the `onItemSelected`, `onItemDeselected` and `onBindViewHolder` methods, but keep in mind that if wou want to preserve the flip animations that come by default, you must invoke the parents' method with **`super`**  when overriding these methods.
+**SelectableViewAdapter** is a SuperSelectableAdapter that provides visual feedback of the selection status of an item. The adapter will perform a nice flip animation to replace the **selectableView** with the **selectedIndicatorView** (explained below) and viceversa. Any other visual feedback of the selection state that you want to provide you must do it on your own in the `onItemSelected`, `onItemDeselected` and `onBindViewHolder` methods, but keep in mind that if wou want to preserve the flip animations that come by default, you must invoke the parents' method with **`super`**  when overriding these methods (if you override `onBindViewHolder` then there's no need to even bother to define the `onBindSelectableViewHolder` method, you can just leave it blank).
 
 ![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/art/selectable_view_adapter.gif?raw=true "SuperSelectableAdapter")
 
@@ -139,6 +139,6 @@ will tell the adapter to ignore click events on its **selectableView** and **sel
 
 ![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/art/handle_adapter.gif?raw=true "SuperSelectableAdapter")
 
-### Extending SelectableViewAdapter
+### Extending HandleAdapter
 
 The process is the same as with SelectableViewAdapter, but the ViewHolder that you provide should not extend from SelectableViewAdapter.ViewHolder, but rather from **HandleAdapter.ViewHolder**. It's like this because this last class has already implemented the code for the *handle* view.
