@@ -93,14 +93,12 @@ public abstract class SelectableAdapter<T, VH extends RecyclerView.ViewHolder>
 
     public void toggleItem(final VH holder, int position) {
         if (!isActionModeEnabled()) {
-            selected.set(position, true);
-            onItemSelected(holder, position);
-            actionMode = startActionMode();
+            triggerSelectionMode(holder, position);
         } else {
             selected.set(position, !selected.get(position));
             if (selected.get(position)) onItemSelected(holder, position);
             else onItemDeselected(holder, position);
-            checkActionModeEnded();
+            updateActionMode();
         }
 
     }
@@ -110,6 +108,7 @@ public abstract class SelectableAdapter<T, VH extends RecyclerView.ViewHolder>
             selected.set(position, true);
             onItemSelected(holder, position);
             actionMode = startActionMode();
+            updateActionMode();
         }
     }
 
@@ -117,26 +116,27 @@ public abstract class SelectableAdapter<T, VH extends RecyclerView.ViewHolder>
         selected.set(position, true);
         onItemSelected(holder, position);
         if (!isActionModeEnabled()) actionMode = startActionMode();
+        updateActionMode();
     }
 
     public void deselectItem(final VH holder, int position) {
         if (isActionModeEnabled()) {
             selected.set(position, false);
             onItemDeselected(holder, position);
-            checkActionModeEnded();
+            updateActionMode();
         }
     }
 
     public abstract void onItemSelected(final VH holder, int position);
     public abstract void onItemDeselected(final VH holder, int position);
 
-    public void checkActionModeEnded() {
+    private void updateActionMode() {
         int selectedElements = 0;
         for (Boolean b : selected) if (b) selectedElements++;
         if (selectedElements == 0) {
             finishActionMode();
         } else {
-            updateActionMode(actionMode, selectedElements);
+            onSelectionUpdate(actionMode, selectedElements);
         }
     }
 
@@ -178,7 +178,7 @@ public abstract class SelectableAdapter<T, VH extends RecyclerView.ViewHolder>
 
     public abstract ActionMode startActionMode();
 
-    public abstract void updateActionMode(ActionMode mode, int selectedCount);
+    public abstract void onSelectionUpdate(ActionMode mode, int selectedCount);
 
     public void finishActionMode() {
         actionMode.finish();

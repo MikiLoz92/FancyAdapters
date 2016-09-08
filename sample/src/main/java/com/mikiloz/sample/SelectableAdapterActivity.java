@@ -131,7 +131,7 @@ public class SelectableAdapterActivity extends AppCompatActivity {
         }
 
         @Override
-        public void updateActionMode(ActionMode mode, int selectedCount) {
+        public void onSelectionUpdate(ActionMode mode, int selectedCount) {
             mode.setTitle(selectedCount + " item(s)");
         }
 

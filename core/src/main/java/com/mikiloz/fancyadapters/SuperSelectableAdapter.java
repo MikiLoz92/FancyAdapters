@@ -5,6 +5,12 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 import java.util.List;
 
+/**
+ * The <b>SuperSelectableAdapter</b> is a {@link RecyclerView.Adapter} that provides selection,
+ * item dragging and swiping capabilities.
+ * @param <T> The type of the elements of the data set.
+ * @param <VH> A custom {@link RecyclerView.ViewHolder}.
+ */
 public abstract class SuperSelectableAdapter<T, VH extends RecyclerView.ViewHolder>
         extends SelectableAdapter<T, VH> {
 
