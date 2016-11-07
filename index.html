@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Fancyadapters by MikiLoz92</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Fancyadapters</h1>
+        <h2>A collection of customizable RecyclerView Adapters for Android, that provide various functionality like item selection, contextual action mode controls, drag&amp;drop and swiping, among other.</h2>
+        <a href="https://github.com/MikiLoz92/FancyAdapters" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="fancyadapters" class="anchor" href="#fancyadapters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>FancyAdapters</h1>
+
+<p>A collection of customizable RecyclerView Adapters for Android, that provide various functionality like item selection, contextual action mode controls, drag&amp;drop and swiping, among other.</p>
+
+<h1>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h1>
+
+<p>In your project's <code>build.gradle</code> add jitpack's repository:</p>
+
+<div class="highlight highlight-source-groovy-gradle"><pre><span class="pl-en">allprojects</span> {
+    repositories {
+        <span class="pl-k">..</span>.
+        maven { url <span class="pl-s"><span class="pl-pds">"</span>https://jitpack.io<span class="pl-pds">"</span></span> }
+    }
+}</pre></div>
+
+<p>And in your module's <code>build.gradle</code> add the following dependency:</p>
+
+<div class="highlight highlight-source-groovy-gradle"><pre><span class="pl-en">dependencies</span> {
+    <span class="pl-k">..</span>.
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.github.mikiloz92:fancyadapters:0.3.1<span class="pl-pds">'</span></span>
+}</pre></div>
+
+<h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h1>
+
+<p>Even though understanding and using the following adapters isn't really a straightforward process, I can guarantee you that the results are going to be worth it! So, without further due, let's take a look at the basics of the adapters:</p>
+
+<h2>
+<a id="selectableadapter" class="anchor" href="#selectableadapter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SelectableAdapter</h2>
+
+<p><strong>SelectableAdapter</strong> is the simplest of them all. It just provides item selection functionality, combined with contextual action mode controls.</p>
+
+<p><img src="https://github.com/MikiLoz92/FancyAdapters/blob/master/art/selectable_adapter.gif?raw=true" alt="alt text" title="SelectableAdapter"></p>
+
+<h3>
+<a id="extending-selectableadapter" class="anchor" href="#extending-selectableadapter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Extending SelectableAdapter</h3>
+
+<p><strong>SelectableAdapter</strong> is an abstract class, and that means you have to implement some of its functionalities on your own. Let's take a look at everything you need to implement and we'll explain step by step how to do it and what your code will be doing:</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CustomAdapter</span> <span class="pl-k">extends</span> <span class="pl-e">SelectableAdapter&lt;<span class="pl-smi">String</span>, <span class="pl-smi">CustomAdapter</span>.CustomViewHolder</span>&gt; {
+
+    <span class="pl-k">public</span> <span class="pl-en">CustomAdapter</span>(<span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> <span class="pl-v">items</span>, <span class="pl-smi">RecyclerView</span> <span class="pl-v">recyclerView</span>) {
+        <span class="pl-v">super</span>(items, recyclerView);
+    }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-smi">CustomViewHolder</span> <span class="pl-en">onCreateSelectableViewHolder</span>(<span class="pl-smi">ViewGroup</span> <span class="pl-v">parent</span>, <span class="pl-k">int</span> <span class="pl-v">viewType</span>) { }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onBindViewHolder</span>(<span class="pl-smi">CustomViewHolder</span> <span class="pl-v">holder</span>, <span class="pl-k">int</span> <span class="pl-v">position</span>) { }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onItemSelected</span>(<span class="pl-smi">CustomViewHolder</span> <span class="pl-v">holder</span>, <span class="pl-k">int</span> <span class="pl-v">position</span>) { }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onItemDeselected</span>(<span class="pl-smi">CustomViewHolder</span> <span class="pl-v">holder</span>, <span class="pl-k">int</span> <span class="pl-v">position</span>) { }
+
+    <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CustomActionModeCallback</span> <span class="pl-k">extends</span> <span class="pl-e">AdapterActionModeCallback</span> {
+
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-k">boolean</span> <span class="pl-en">onCreateActionMode</span>(<span class="pl-smi">ActionMode</span> <span class="pl-v">mode</span>, <span class="pl-smi">Menu</span> <span class="pl-v">menu</span>) { }
+
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-k">boolean</span> <span class="pl-en">onPrepareActionMode</span>(<span class="pl-smi">ActionMode</span> <span class="pl-v">mode</span>, <span class="pl-smi">Menu</span> <span class="pl-v">menu</span>) { }
+
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-k">boolean</span> <span class="pl-en">onActionItemClicked</span>(<span class="pl-smi">ActionMode</span> <span class="pl-v">mode</span>, <span class="pl-smi">MenuItem</span> <span class="pl-v">item</span>) { }
+
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onExitActionMode</span>(<span class="pl-smi">ActionMode</span> <span class="pl-v">mode</span>) { }
+
+    }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-smi">ActionMode</span> <span class="pl-en">startActionMode</span>() { }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onSelectionUpdate</span>(<span class="pl-smi">ActionMode</span> <span class="pl-v">mode</span>, <span class="pl-k">int</span> <span class="pl-v">selectedCount</span>) { }
+
+    <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CustomViewHolder</span> <span class="pl-k">extends</span> <span class="pl-e">RecyclerView</span>.<span class="pl-e">ViewHolder</span> {
+
+        <span class="pl-k">public</span> <span class="pl-en">CustomViewHolder</span>(<span class="pl-smi">View</span> <span class="pl-v">itemView</span>) {
+            <span class="pl-v">super</span>(itemView);
+        }
+
+    }
+
+}</pre></div>
+
+<p>First, notice that when extending from SelectableAdapter, you should provide a type for the elements your adapter will be storing, in this case <code>String</code>s.</p>
+
+<ul>
+<li>
+<code>onCreateSelectableViewHolder</code>: This method creates a ViewHolder and returns it. It is called each time the RecyclerView needs a new ViewHolder, because either it doesn't have or it ran out of ViewHolders to recycle.</li>
+<li>
+<code>onBindViewHolder</code>: This method is used, generally, to replace the elements of a ViewHolder that was just recycled for the elements of a ViewHolder that is needed at the moment (this element corresponds to the <code>position</code> parameter). Furthermore, you should check if the ViewHolder that is being binded is selected or not (use the public method <code>isSelected(int position)</code>) and call <code>onItemSelected</code> or <code>onItemDeselected</code> accordingly.</li>
+<li>The <code>onItemSelected</code> and <code>onItemDeselected</code> methods should take care of activating or deactivating any view that provides visual feedback of the selection state of an item.</li>
+<li>We need to define an AdapterActionModeCallback child. This child contains the methods that will be called on every event of the ActionMode. Regarding the titles of the methods to override, this is pretty self-explanatory:
+
+<ul>
+<li>The <code>onCreateActionMode</code> is called whenever the intention of creating an ActionMode is made public. We should inflate any possible menu here, and perform any actions on the currently active (by active I mean "not recycled") ViewHolders, if needed. You can access them with the <code>viewHolders</code> public list. Watch the sample app to find out more about manipulating the ViewHolders programmatically.</li>
+<li>The <code>onPrepareActionMode</code> method should set the title and perform any remaining actions once the ActionMode is created.</li>
+<li>The <code>onActionItemClicked</code> method responds to action item click events.</li>
+<li>The <code>onExitActionMode</code> is called when the ActionMode is being destroyed, be it because we clicked the back button or because we deselected the last item that remained selected. As with the <code>onCreateActionMode</code> method, any actions on the currently active ViewHolders should be performed here as well, if needed.</li>
+</ul>
+</li>
+<li>The <code>startActionMode</code> method should create and return an ActionMode using an instance of the callback defined earlier. For the purpose of creating the ActionMode, you should employ any feasible strategy. For example, if you are extending the SelectableAdapter inside of an Activity class, this is easy: just call <code>startSupportActionMode()</code>. However, if you are doing it inside of a Fragment class, it gets a little trickier, you have to first access the parent Activity to call the method.</li>
+<li>The <code>onSelectionUpdate</code> is called when an item has just been selected or deselected. This method should update the ActionMode title to reflect the change in the number of selected items.</li>
+<li>Finally, a ViewHolder type needs to be provided to the SelectableAdapter. Within this ViewHolder's constructor, you should define any OnClickListener, OnLongClickListener or any input listener that triggers the selection mode, toggles, selects or deselects an item. For these four events, you should call <code>triggerSelectionMode()</code>, <code>toggleItem()</code>, <code>selectItem()</code> and <code>deselectItem()</code>, respectively.</li>
+</ul>
+
+<h2>
+<a id="superselectableadapter" class="anchor" href="#superselectableadapter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SuperSelectableAdapter</h2>
+
+<p><strong>SuperSelectableAdapter</strong> adds drag&amp;drop and swiping capabilities to <strong>SelectableAdapter</strong>.</p>
+
+<p><img src="https://github.com/MikiLoz92/FancyAdapters/blob/master/art/super_selectable_adapter.gif?raw=true" alt="alt text" title="SuperSelectableAdapter"></p>
+
+<h3>
+<a id="extending-superselectableadapter" class="anchor" href="#extending-superselectableadapter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Extending SuperSelectableAdapter</h3>
+
+<p>There are few more requisites to extend SuperSelectableAdapter than extending its parent class:</p>
+
+<ul>
+<li>Implement the <code>onMove</code> method: this method is called whenever a ViewHolder that you are currently dragging forces another ViewHolder to swap its position. You should perform any backend data movement here, or at least move the items from the <code>items</code> ArrayList of SuperSelectableAdapter.</li>
+<li>Implement the <code>onSwipe</code> method: this method is called whenever a ViewHolder is swiped. Any possible backend data removal or modification should be done here.</li>
+<li>As with SelectableAdapter, you can customize the ViewHolder behavior on input events by using the <code>triggerSelectionMode()</code>, <code>toggleItem()</code>, <code>selectItem()</code> and <code>deselectItem()</code> methods. Just one more thing left: you can call the <code>dragStart()</code> method whenver you want to start a drag. Generally, you would do this on your ViewHolder itemView's OnLongClickListener, but you could also add a <em>handle</em> View to your ViewHolder and start the drag when that <em>handle</em> is touched. The possibilities are endless!</li>
+<li>By default, an item will be selected when you start a drag on its ViewHolder and drop it on the same spot without moving it from there, as you can see on the gif image above. However, you can disable this behavior by using the <code>setTriggerSelectionModeByDroppingViewHolder(boolean triggerOnDrop)</code> method.</li>
+</ul>
+
+<h2>
+<a id="selectableviewadapter" class="anchor" href="#selectableviewadapter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SelectableViewAdapter</h2>
+
+<p><strong>SelectableViewAdapter</strong> is a SuperSelectableAdapter that provides visual feedback of the selection status of an item. The adapter will perform a nice flip animation to replace the <strong>selectableView</strong> with the <strong>selectedIndicatorView</strong> (explained below) and viceversa. Any other visual feedback of the selection state that you want to provide you must do it on your own in the <code>onItemSelected</code>, <code>onItemDeselected</code> and <code>onBindViewHolder</code> methods, but keep in mind that if wou want to preserve the flip animations that come by default, you must invoke the parents' method with <strong><code>super</code></strong>  when overriding these methods (if you override <code>onBindViewHolder</code> then there's no need to even bother to define the <code>onBindSelectableViewHolder</code> method, you can just leave it blank).</p>
+
+<p><img src="https://github.com/MikiLoz92/FancyAdapters/blob/master/art/selectable_view_adapter.gif?raw=true" alt="alt text" title="SuperSelectableAdapter"></p>
+
+<h3>
+<a id="extending-selectableviewadapter" class="anchor" href="#extending-selectableviewadapter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Extending SelectableViewAdapter</h3>
+
+<p>What makes SelectableViewAdapter different from SuperSelectableAdapter is that you cannot provide a ViewHolder that extends from RecyclerView.ViewHolder. Instead, the ViewHolder must extend from <strong>SelectableViewAdapter.ViewHolder</strong>. This is because this particular subclass provides two abstract methods (<code>getSelectableViewID</code> and <code>getSelectedIndicatorResourceID</code>) that, when overriden, should provide, respectively:</p>
+
+<ol>
+<li>The ID (R.id.*) of the View that will act as a selectable View (in the gif below, it is the ID of the TextView that marks the row position (on the left of each item). This is considered the <strong>selectableView</strong>.</li>
+<li>The layout ID (R.layout.*) from which to inflate a View that will replace the View just described (in the gif below, it is a View that has tick mark). This is considered the <strong>selectedIndicatorView</strong>.</li>
+</ol>
+
+<p>You can set whether the <strong>selectableView</strong> and <strong>selectedIndicatorView</strong> will respond to click events and toggle a selection with the method <code>setSelectableViewBehavior</code>. Just call it on your adapter instance. For example:</p>
+
+<div class="highlight highlight-source-java"><pre>mAdapter<span class="pl-k">.</span>setSelectableViewBehavior(<span class="pl-smi">SelectableViewBehavior</span><span class="pl-c1"><span class="pl-k">.</span>IGNORE_CLICK_EVENTS</span>);</pre></div>
+
+<p>will tell the adapter to ignore click events on its <strong>selectableView</strong> and <strong>selectedIndicatorView</strong>. You can define another way to select an item, like long clicking it. The default behavior is <code>SelectableViewBehavior.RESPOND_TO_CLICK_EVENTS</code>, btw.</p>
+
+<h2>
+<a id="handleadapter" class="anchor" href="#handleadapter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>HandleAdapter</h2>
+
+<p><strong>HandleAdapter</strong> is basically the same as SelectableViewAdapter (extends from it too), but it already provides the code to drag an item by touching the  <strong>selectableView</strong> (the <em>handle</em> in this case). The idea here is that items here can <strong>only</strong> be dragged by touching the <em>handle</em>, so don't try to start a drag with a long click on the item; you could do that too, but better leave that option for presenting a menu dialog, for example... Just thoughts!</p>
+
+<p><img src="https://github.com/MikiLoz92/FancyAdapters/blob/master/art/handle_adapter.gif?raw=true" alt="alt text" title="SuperSelectableAdapter"></p>
+
+<h3>
+<a id="extending-handleadapter" class="anchor" href="#extending-handleadapter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Extending HandleAdapter</h3>
+
+<p>The process is the same as with SelectableViewAdapter, but the ViewHolder that you provide should not extend from SelectableViewAdapter.ViewHolder, but rather from <strong>HandleAdapter.ViewHolder</strong>. It's like this because this last class has already implemented the code for the <em>handle</em> view.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/MikiLoz92/FancyAdapters/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/MikiLoz92/FancyAdapters/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/MikiLoz92/FancyAdapters"></a> is maintained by <a href="https://github.com/MikiLoz92">MikiLoz92</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
