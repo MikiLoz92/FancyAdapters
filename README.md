@@ -1,6 +1,15 @@
 # FancyAdapters
 A collection of customizable RecyclerView Adapters for Android, that provide various functionality like item selection, contextual action mode controls, drag&amp;drop and swiping, among other.
 
+# Apps using FancyAdapters
+
+<a target="_blank" href="https://play.google.com/store/apps/details?id=com.mobymagic.musicplayer">
+<img src="https://lh3.googleusercontent.com/yaqTEg8aM8uR-IKM-Oz93PuQu4S2chRVOu01Opylu7zKvepIZUWIS4WHvObHPpdVIRY=w300-rw"
+    title="Rx Music Player"
+    alt="Rx Music Player" height="24">
+</a> [**Rx Music Player**](https://play.google.com/store/apps/details?id=com.mobymagic.musicplayer), by Nnajiofor Onyinyechi
+
+
 # Installation
 In your project's `build.gradle` add jitpack's repository:
 ```gradle
