@@ -1,6 +1,15 @@
 # FancyAdapters
 A collection of customizable RecyclerView Adapters for Android, that provide various functionality like item selection, contextual action mode controls, drag&amp;drop and swiping, among other.
 
+# Apps using FancyAdapters
+
+<a target="_blank" href="https://play.google.com/store/apps/details?id=com.mobymagic.musicplayer">
+<img src="https://lh3.googleusercontent.com/yaqTEg8aM8uR-IKM-Oz93PuQu4S2chRVOu01Opylu7zKvepIZUWIS4WHvObHPpdVIRY=w300-rw"
+    title="Rx Music Player"
+    alt="Rx Music Player" height="24">
+</a> [**Rx Music Player**](https://play.google.com/store/apps/details?id=com.mobymagic.musicplayer), by Nnajiofor Onyinyechi
+
+
 # Installation
 In your project's `build.gradle` add jitpack's repository:
 ```gradle
@@ -15,7 +24,7 @@ And in your module's `build.gradle` add the following dependency:
 ```gradle
 dependencies {
 	...
-	compile 'com.github.mikiloz92:fancyadapters:0.3.0'
+	compile 'com.github.mikiloz92:fancyadapters:0.3.1'
 }
 ```
 
@@ -72,7 +81,7 @@ public class CustomAdapter extends SelectableAdapter<String, CustomAdapter.Custo
     public ActionMode startActionMode() { }
 
     @Override
-    public void updateActionMode(ActionMode mode, int selectedCount) { }
+    public void onSelectionUpdate(ActionMode mode, int selectedCount) { }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
@@ -96,7 +105,7 @@ First, notice that when extending from SelectableAdapter, you should provide a t
   * The `onActionItemClicked` method responds to action item click events.
   * The `onExitActionMode` is called when the ActionMode is being destroyed, be it because we clicked the back button or because we deselected the last item that remained selected. As with the `onCreateActionMode` method, any actions on the currently active ViewHolders should be performed here as well, if needed.
 * The `startActionMode` method should create and return an ActionMode using an instance of the callback defined earlier. For the purpose of creating the ActionMode, you should employ any feasible strategy. For example, if you are extending the SelectableAdapter inside of an Activity class, this is easy: just call `startSupportActionMode()`. However, if you are doing it inside of a Fragment class, it gets a little trickier, you have to first access the parent Activity to call the method.
-* The `updateActionMode` method should update the ActionMode title when the number of items selected changes.
+* The `onSelectionUpdate` is called when an item has just been selected or deselected. This method should update the ActionMode title to reflect the change in the number of selected items.
 * Finally, a ViewHolder type needs to be provided to the SelectableAdapter. Within this ViewHolder's constructor, you should define any OnClickListener, OnLongClickListener or any input listener that triggers the selection mode, toggles, selects or deselects an item. For these four events, you should call `triggerSelectionMode()`, `toggleItem()`, `selectItem()` and `deselectItem()`, respectively.
 
 ## SuperSelectableAdapter
@@ -116,16 +125,29 @@ There are few more requisites to extend SuperSelectableAdapter than extending it
 
 ## SelectableViewAdapter
 
-**SelectableViewAdapter** is a SuperSelectableAdapter that provides visual feedback of the selection status of an item. What makes it different from the adapter that it extends from is that there are two methods in the ViewHolder (it must extend from SelectableViewAdapter.ViewHolder), `getSelectableViewID` and `getSelectedIndicatorResourceID` that provide, respectively:
+**SelectableViewAdapter** is a SuperSelectableAdapter that provides visual feedback of the selection status of an item. The adapter will perform a nice flip animation to replace the **selectableView** with the **selectedIndicatorView** (explained below) and viceversa. Any other visual feedback of the selection state that you want to provide you must do it on your own in the `onItemSelected`, `onItemDeselected` and `onBindViewHolder` methods, but keep in mind that if wou want to preserve the flip animations that come by default, you must invoke the parents' method with **`super`**  when overriding these methods (if you override `onBindViewHolder` then there's no need to even bother to define the `onBindSelectableViewHolder` method, you can just leave it blank).
+
+![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/art/selectable_view_adapter.gif?raw=true "SuperSelectableAdapter")
+
+### Extending SelectableViewAdapter
+
+What makes SelectableViewAdapter different from SuperSelectableAdapter is that you cannot provide a ViewHolder that extends from RecyclerView.ViewHolder. Instead, the ViewHolder must extend from **SelectableViewAdapter.ViewHolder**. This is because this particular subclass provides two abstract methods (`getSelectableViewID` and `getSelectedIndicatorResourceID`) that, when overriden, should provide, respectively:
 
 1. The ID (R.id.\*) of the View that will act as a selectable View (in the gif below, it is the ID of the TextView that marks the row position (on the left of each item). This is considered the **selectableView**.
 2. The layout ID (R.layout.\*) from which to inflate a View that will replace the View just described (in the gif below, it is a View that has tick mark). This is considered the **selectedIndicatorView**.
 
-![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/art/selectable_view_adapter.gif?raw=true "SuperSelectableAdapter")
-
+You can set whether the **selectableView** and **selectedIndicatorView** will respond to click events and toggle a selection with the method `setSelectableViewBehavior`. Just call it on your adapter instance. For example:
+```java
+mAdapter.setSelectableViewBehavior(SelectableViewBehavior.IGNORE_CLICK_EVENTS);
+```
+will tell the adapter to ignore click events on its **selectableView** and **selectedIndicatorView**. You can define another way to select an item, like long clicking it. The default behavior is `SelectableViewBehavior.RESPOND_TO_CLICK_EVENTS`, btw.
 
 ## HandleAdapter
 
-**HandleAdapter** is a special type of adapter. It sacrifices a little bit of customizability in order to bring to the user an easier to implement adapter. The adapter bases its behavior in the idea that ViewHolders can only be moved by dragging a certain View, called the *handle* View. It the gif below, it is represented by the image on the left of each row.
+**HandleAdapter** is basically the same as SelectableViewAdapter (extends from it too), but it already provides the code to drag an item by touching the  **selectableView** (the *handle* in this case). The idea here is that items here can **only** be dragged by touching the *handle*, so don't try to start a drag with a long click on the item; you could do that too, but better leave that option for presenting a menu dialog, for example... Just thoughts!
 
 ![alt text](https://github.com/MikiLoz92/FancyAdapters/blob/master/art/handle_adapter.gif?raw=true "SuperSelectableAdapter")
+
+### Extending HandleAdapter
+
+The process is the same as with SelectableViewAdapter, but the ViewHolder that you provide should not extend from SelectableViewAdapter.ViewHolder, but rather from **HandleAdapter.ViewHolder**. It's like this because this last class has already implemented the code for the *handle* view.
