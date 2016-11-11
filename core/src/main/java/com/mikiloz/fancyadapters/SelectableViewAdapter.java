@@ -140,12 +140,12 @@ public abstract class SelectableViewAdapter<T, VH extends SelectableViewAdapter.
         selectableViewBehavior = behavior;
     }
 
-    public abstract class ViewHolder extends RecyclerView.ViewHolder {
+    public static abstract class ViewHolder extends RecyclerView.ViewHolder {
 
         protected View selectableView, selectedIndicatorView;
         protected ViewGroup parent;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final SelectableViewAdapter adapter, View itemView) {
             super(itemView);
             selectableView = itemView.findViewById(getSelectableViewID());
             parent = (ViewGroup) selectableView.getParent();
@@ -156,11 +156,11 @@ public abstract class SelectableViewAdapter<T, VH extends SelectableViewAdapter.
             selectableView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (selectableViewBehavior == SelectableViewBehavior.RESPOND_TO_CLICK_EVENTS) {
-                        if (!isActionModeEnabled())
-                            triggerSelectionMode((VH) ViewHolder.this, getLayoutPosition());
+                    if (adapter.selectableViewBehavior == SelectableViewBehavior.RESPOND_TO_CLICK_EVENTS) {
+                        if (!adapter.isActionModeEnabled())
+                            adapter.triggerSelectionMode(ViewHolder.this, getLayoutPosition());
                         else
-                            toggleItem((VH) ViewHolder.this, getLayoutPosition());
+                            adapter.toggleItem(ViewHolder.this, getLayoutPosition());
                     }
                 }
             });
@@ -168,8 +168,8 @@ public abstract class SelectableViewAdapter<T, VH extends SelectableViewAdapter.
             selectedIndicatorView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (selectableViewBehavior == SelectableViewBehavior.RESPOND_TO_CLICK_EVENTS) {
-                        toggleItem((VH) ViewHolder.this, getLayoutPosition());
+                    if (adapter.selectableViewBehavior == SelectableViewBehavior.RESPOND_TO_CLICK_EVENTS) {
+                        adapter.toggleItem(ViewHolder.this, getLayoutPosition());
                     }
                 }
             });

@@ -51,7 +51,7 @@ public class SelectableViewAdapterActivity extends AppCompatActivity {
         public CustomViewHolder onCreateSelectableViewHolder(ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.row_view_selectable_view, parent, false);
-            return new CustomViewHolder(itemView);
+            return new CustomViewHolder(this, itemView);
         }
 
         @Override
@@ -118,8 +118,8 @@ public class SelectableViewAdapterActivity extends AppCompatActivity {
             TextView textView;
             TextView position;
 
-            public CustomViewHolder(View itemView) {
-                super(itemView);
+            public CustomViewHolder(SelectableViewAdapter adapter, View itemView) {
+                super(adapter, itemView);
                 textView = (TextView) itemView.findViewById(R.id.textview);
                 position = (TextView) itemView.findViewById(R.id.position);
 
@@ -151,6 +151,7 @@ public class SelectableViewAdapterActivity extends AppCompatActivity {
             public int getSelectedIndicatorResourceID() {
                 return R.layout.selected_indicator_lesspadding;
             }
+
         }
 
     }

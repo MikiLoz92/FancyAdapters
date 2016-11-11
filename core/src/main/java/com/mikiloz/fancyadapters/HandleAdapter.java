@@ -2,14 +2,12 @@ package com.mikiloz.fancyadapters;// Created by Miguel Vera Belmonte on 18/08/20
 
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.List;
 
-
+// Created by Miguel Vera Belmonte on 18/08/2016.
 public abstract class HandleAdapter<T, VH extends HandleAdapter.ViewHolder>
         extends SelectableViewAdapter<T, VH> {
 
@@ -29,29 +27,29 @@ public abstract class HandleAdapter<T, VH extends HandleAdapter.ViewHolder>
         selectableViewBehavior = SelectableViewBehavior.IGNORE_CLICK_EVENTS;
     }
 
-    public abstract class ViewHolder extends SelectableViewAdapter.ViewHolder {
+    public static abstract class ViewHolder extends SelectableViewAdapter.ViewHolder {
 
-        public ViewHolder(View itemView) {
-            super(itemView);
+        public ViewHolder(final HandleAdapter adapter, View itemView) {
+            super(adapter, itemView);
 
             selectableView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_MOVE) {
-                        if (!isActionModeEnabled()) {
-                            startDrag((VH)ViewHolder.this, getLayoutPosition());
+                        if (!adapter.isActionModeEnabled()) {
+                            adapter.startDrag(ViewHolder.this, getLayoutPosition());
                         }
                     } else if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_UP) {
-                        actionCancelled = false;
-                        if (selectableViewBehavior == SelectableViewBehavior.RESPOND_TO_CLICK_EVENTS) {
-                            if (isActionModeEnabled()) {
-                                toggleItem((VH) ViewHolder.this, getLayoutPosition());
+                        adapter.actionCancelled = false;
+                        if (adapter.selectableViewBehavior == SelectableViewBehavior.RESPOND_TO_CLICK_EVENTS) {
+                            if (adapter.isActionModeEnabled()) {
+                                adapter.toggleItem(ViewHolder.this, getLayoutPosition());
                             } else {
-                                triggerSelectionMode((VH) ViewHolder.this, getLayoutPosition());
+                                adapter.triggerSelectionMode(ViewHolder.this, getLayoutPosition());
                             }
                         }
                     } else if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_CANCEL) {
-                        actionCancelled = true;
+                        adapter.actionCancelled = true;
                     }
                     return true;
                 }
@@ -60,8 +58,8 @@ public abstract class HandleAdapter<T, VH extends HandleAdapter.ViewHolder>
             selectedIndicatorView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (selectableViewBehavior == SelectableViewBehavior.RESPOND_TO_CLICK_EVENTS) {
-                        toggleItem((VH) ViewHolder.this, getLayoutPosition());
+                    if (adapter.selectableViewBehavior == SelectableViewBehavior.RESPOND_TO_CLICK_EVENTS) {
+                        adapter.toggleItem(ViewHolder.this, getLayoutPosition());
                     }
                 }
             });

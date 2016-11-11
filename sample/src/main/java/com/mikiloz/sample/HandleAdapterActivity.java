@@ -53,7 +53,7 @@ public class HandleAdapterActivity extends AppCompatActivity {
         public CustomViewHolder onCreateSelectableViewHolder(ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.row_view_handle, parent, false);
-            return new CustomViewHolder(itemView);
+            return new CustomViewHolder(this, itemView);
         }
 
         @Override
@@ -118,8 +118,8 @@ public class HandleAdapterActivity extends AppCompatActivity {
 
             TextView textView;
 
-            public CustomViewHolder(View itemView) {
-                super(itemView);
+            public CustomViewHolder(HandleAdapter adapter, View itemView) {
+                super(adapter, itemView);
                 textView = (TextView) itemView.findViewById(R.id.textview);
 
                 itemView.setOnLongClickListener(new View.OnLongClickListener() {
