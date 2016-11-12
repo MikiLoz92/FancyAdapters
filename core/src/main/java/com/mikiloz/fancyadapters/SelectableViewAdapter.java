@@ -48,6 +48,7 @@ public abstract class SelectableViewAdapter<T, VH extends SelectableViewAdapter.
                 holder.parent.removeView(holder.selectedIndicatorView);
                 holder.selectableView.setRotationY(0);
                 holder.parent.addView(holder.selectableView, index);
+                System.out.println("caca");
             }
         }
 
@@ -113,12 +114,24 @@ public abstract class SelectableViewAdapter<T, VH extends SelectableViewAdapter.
             }
             @Override
             public void onAnimationEnd(Animator animator) {
-                animator2.start();
-                holder.selectedIndicatorView.setRotationY(0);
                 int index = holder.parent.indexOfChild(holder.selectedIndicatorView);
-                holder.parent.removeView(holder.selectedIndicatorView);
-                holder.parent.removeView(holder.selectableView);
-                holder.parent.addView(holder.selectableView, index);
+                // There are times when we call adapter.notifyDataSetChanged() right after clicking
+                // an ActionItem, because a backend data modification has been done (e.g.: we just
+                // erased some elements). This will trigger a rebinding of ViewHolders, that will
+                // all be set with selectableViews. At the same time, because the ActionMode just
+                // ended, resetSelected() will also be called, which will in turn animate the
+                // selectedIndicatorViews to selectableViews. But since the previous rebinding has
+                // already replaced them with selectableViews, this animation process will collide
+                // with the rebinding process, and wipe all selectableViews already in existence.
+                // That is why we will only perform the second step of the animation if we can
+                // find a selectedIncatorView to begin with, as demonstrated below.
+                if (index != -1) {
+                    animator2.start();
+                    holder.selectedIndicatorView.setRotationY(0);
+                    holder.parent.removeView(holder.selectedIndicatorView);
+                    holder.parent.removeView(holder.selectableView);
+                    holder.parent.addView(holder.selectableView, index);
+                }
             }
             @Override
             public void onAnimationCancel(Animator animator) {

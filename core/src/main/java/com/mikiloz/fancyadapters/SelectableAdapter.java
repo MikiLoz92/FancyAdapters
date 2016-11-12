@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -143,16 +144,32 @@ public abstract class SelectableAdapter<T, VH extends RecyclerView.ViewHolder>
     private class DataChangeObserver extends RecyclerView.AdapterDataObserver {
 
         @Override
-        public void onChanged() {
-            while (items.size() != selected.size()) {
-                int size = items.size();
-                if (size < selected.size()) {
-                    selected.remove(selected.size() - 1);
-                } else if (size > selected.size()) {
-                    selected.add(false);
-                }
-            }
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            for (int i = positionStart; i < positionStart + itemCount; i++) selected.remove(i);
         }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            if (fromPosition + itemCount < toPosition)
+                for (int i = 0; i < itemCount; i++)
+                    selected.add(toPosition - 1, selected.remove(fromPosition));
+            else if (fromPosition > toPosition)
+                for (int i = 0; i < itemCount; i++)
+                    selected.add(toPosition, selected.remove(fromPosition));
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            for (int i = positionStart; i < positionStart + itemCount; i++) selected.add(i, false);
+        }
+
+        @Override
+        public void onChanged() {
+            int size = items.size();
+            selected = new ArrayList<>();
+            for (int i = 0; i < size; i++) selected.add(false);
+        }
+
     }
 
     public abstract class AdapterActionModeCallback implements ActionMode.Callback {
