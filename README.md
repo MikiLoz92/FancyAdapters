@@ -28,6 +28,10 @@ dependencies {
 }
 ```
 
+# Library structure
+
+![](https://github.com/MikiLoz92/FancyAdapters/blob/master/art/fancyadapters.png?raw=true "SelectableAdapter")
+
 # Usage
 
 Even though understanding and using the following adapters isn't really a straightforward process, I can guarantee you that the results are going to be worth it! So, without further due, let's take a look at the basics of the adapters:
